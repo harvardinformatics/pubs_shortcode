@@ -18,7 +18,7 @@ function showRCPubs($params) {
         'headers' => ['Authorization' => 'Token ' . $token],
     ]);
 
-    $result = $api->get('api/pubs/', ['facility' => 'cns']);
+    $result = $api->get('api/pubs/', ['facility' => 'rc']);
     
     if ($result->info->http_code == 200) {
 
