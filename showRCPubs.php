@@ -1,20 +1,25 @@
-// Retrieves the RC publication list and displays on website
-
-include('restclient.php')
+<?php
+include('restclient.php');
 
 function showRCPubs($params) {
 
     $token = $params['token'];
     $url = $params['url'];
+	
+    if (!isset($token) or trim($token) === ''){
+        return '<strong>token parameter must be set</strong>';
+    }
+    if (!isset($url) or trim($url) === ''){
+        return '<strong>url parameter must be set</strong>';
+    }
 
     $api = new RestClient([
         'base_url' => $url,
-        'format' => 'json',
-        'headers' => ['Authorization' => 'token ' . $token],
+        'headers' => ['Authorization' => 'Token ' . $token],
     ]);
 
-    $result = $api->get('api/pubs/', ['facility' => 'rc']);
-
+    $result = $api->get('api/pubs/', ['facility' => 'cns']);
+    
     if ($result->info->http_code == 200) {
 
         $pubs = $result->decode_response();
@@ -25,14 +30,11 @@ function showRCPubs($params) {
         foreach($pubs as $pub){
             $pubdate = date('Y', strtotime($pub['date']));
             if ($pubdate != $currentyear) {
-                $out.push(
+                array_push($out, 
                     sprintf(
                         "
                             <h3><strong>%s (%d publications)</strong></h3>\n
-                            <ol>\n
-                                 <li>%s
-                                 </li>
-                            </ol>\n
+                            <ol>%s</ol>\n
                         ",
                         $pubdate,
                         $pubcount,
@@ -41,9 +43,10 @@ function showRCPubs($params) {
                 );
                 $pubcount = 0;
                 $pubstrs = [];
+                $currentyear = $pubdate;
             }
             else {
-                $pubstrs.push(
+                array_push($pubstrs, 
                     sprintf(
                         "<li>%s %s. %s <i>%s</i>.</li>",
                         $pub['authors'],
@@ -63,3 +66,4 @@ function showRCPubs($params) {
     }
 }
 add_shortcode('show_rc_pubs', 'showRCPubs');
+

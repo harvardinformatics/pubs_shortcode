@@ -265,9 +265,8 @@ class RestClient implements Iterator, ArrayAccess {
             if(!array_key_exists($format, $this->options['decoders']))
                 throw new RestClientException("'${format}' is not a supported ".
                     "format, register a decoder to handle this response.");
-            
-            $this->decoded_response = call_user_func(
-                $this->options['decoders'][$format], $this->response);
+            //Return as an array 
+            $this->decoded_response = json_decode($this->response, true);
         }
         
         return $this->decoded_response;
