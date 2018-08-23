@@ -48,7 +48,7 @@ function showRCPubs($params) {
             else {
                 array_push($pubstrs,
                     sprintf(
-                        "<li>%s %s. %s <i>%s</i>.</li>",
+                        "<li>%s %s. %s <i>%s</i></li>",
                         $pub['authors'],
                         $pubdate,
                         $pub['title'],
