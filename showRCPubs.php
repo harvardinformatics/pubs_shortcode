@@ -55,8 +55,8 @@ function showRCPubs($params) {
                         $pub['citation']
                     )
                 );
+                $pubcount++;
             }
-            $pubcount++;
         }
         array_push($out,
             sprintf(
@@ -69,9 +69,6 @@ function showRCPubs($params) {
                 implode("\n", $pubstrs)
             )
         );
-        $pubcount = 0;
-        $pubstrs = [];
-        $currentyear = $pubdate;
         $out = implode("\n", $out);
         return $out;
     } else {
