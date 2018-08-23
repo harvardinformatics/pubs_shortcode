@@ -58,6 +58,20 @@ function showRCPubs($params) {
             }
             $pubcount++;
         }
+        array_push($out,
+            sprintf(
+                "
+                    <h3><strong>%s (%d publications)</strong></h3>\n
+                    <ol>%s</ol>\n
+                ",
+                $currentyear,
+                $pubcount,
+                implode("\n", $pubstrs)
+            )
+        );
+        $pubcount = 0;
+        $pubstrs = [];
+        $currentyear = $pubdate;
         $out = implode("\n", $out);
         return $out;
     } else {
