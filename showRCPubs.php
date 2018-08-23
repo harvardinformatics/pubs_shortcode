@@ -5,7 +5,7 @@ function showRCPubs($params) {
 
     $token = $params['token'];
     $url = $params['url'];
-	
+
     if (!isset($token) or trim($token) === ''){
         return '<strong>token parameter must be set</strong>';
     }
@@ -19,7 +19,7 @@ function showRCPubs($params) {
     ]);
 
     $result = $api->get('api/pubs/', ['facility' => 'rc']);
-    
+
     if ($result->info->http_code == 200) {
 
         $pubs = $result->decode_response();
@@ -30,13 +30,13 @@ function showRCPubs($params) {
         foreach($pubs as $pub){
             $pubdate = date('Y', strtotime($pub['date']));
             if ($pubdate != $currentyear) {
-                array_push($out, 
+                array_push($out,
                     sprintf(
                         "
                             <h3><strong>%s (%d publications)</strong></h3>\n
                             <ol>%s</ol>\n
                         ",
-                        $pubdate,
+                        $currentyear,
                         $pubcount,
                         implode("\n", $pubstrs)
                     )
@@ -46,7 +46,7 @@ function showRCPubs($params) {
                 $currentyear = $pubdate;
             }
             else {
-                array_push($pubstrs, 
+                array_push($pubstrs,
                     sprintf(
                         "<li>%s %s. %s <i>%s</i>.</li>",
                         $pub['authors'],
