@@ -45,18 +45,16 @@ function showRCPubs($params) {
                 $pubstrs = [];
                 $currentyear = $pubdate;
             }
-            else {
-                array_push($pubstrs,
-                    sprintf(
-                        "<li>%s %s. %s <i>%s</i></li>",
-                        $pub['authors'],
-                        $pubdate,
-                        $pub['title'],
-                        $pub['citation']
-                    )
-                );
-                $pubcount++;
-            }
+            array_push($pubstrs,
+                sprintf(
+                    "<li>%s %s. %s <i>%s</i></li>",
+                    $pub['authors'],
+                    $pubdate,
+                    $pub['title'],
+                    $pub['citation']
+                )
+            );
+            $pubcount++;
         }
         array_push($out,
             sprintf(
