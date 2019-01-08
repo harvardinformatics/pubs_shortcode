@@ -18,11 +18,12 @@ function showRCPubs($params) {
         'headers' => ['Authorization' => 'Token ' . $token],
     ]);
 
-    $result = $api->get('api/pubs/', ['facility' => 'rc', 'start' => '2008-01-01']);
+    $result = $api->get('api/pubs/', ['facility' => 'rc', 'start' => '2008-01-01', 'page' => 1, 'page_size' => 100000]);
 
     if ($result->info->http_code == 200) {
 
-        $pubs = $result->decode_response();
+        $result = $result->decode_response();
+        $pubs = $result['results'];
         $out = [];
         $pubstrs = [];
         $currentyear = date('Y');
