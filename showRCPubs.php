@@ -77,3 +77,34 @@ function showRCPubs($params) {
 }
 add_shortcode('show_rc_pubs', 'showRCPubs');
 
+// Gets the activation information for a BuildStack
+// Used in applications types page
+function getBuildStackActivation($params) {
+    $url = $params['url'];
+    $build_stack = $params['build_stack'];
+
+    if (!isset($url) or trim($url) === ''){
+        return '<strong>url parameter must be set</strong>';
+    }
+    if (!isset($build_stack) or trim($build_stack) === ''){
+        return '<strong>build_stack parameter must be set</strong>';
+    }
+
+    $api = new RestClient([
+        'base_url' => $url,
+    ]);
+
+    $result = $api->get($build_stack . '/', ['format' => 'json']);
+
+    if ($result->info->http_code == 200) {
+
+        $result = $result->decode_response();
+        $activation = $result['activation'];
+        return $activation;
+    } else {
+        error_log('Error getting build_stack from API.  Error code is ' . $result->info->http_code);
+        return '<em>There was an error fetching the build_stack from the API.  I know, right?</em>';
+    }
+}
+add_shortcode('get_build_stack_activation', 'getBuildStackActivation');
+
